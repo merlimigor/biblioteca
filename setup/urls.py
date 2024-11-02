@@ -15,9 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
-from .views import register
+from livros.views import register, Index
 from django.contrib.auth import views as auth_views
 from livros.views import (
     EmprestimoListView, EmprestimoCreateView, EmprestimoUpdateView, EmprestimoDeleteView,
@@ -26,10 +26,16 @@ from livros.views import (
 )
 
 urlpatterns = [
- 
+
+
+    path('', Index.as_view(), name='index'),  # Mapeando a URL raiz
+    path('register/', register, name='register'),  # Registro de usuário
+    # Adicione outras URLs aqui...
     path('', TemplateView.as_view(template_name='livros/index.html'), name='index'),# Página inicial
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    ath('register/', register, name='register'),
+    path('register/', register, name='register'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),  # Adiciona a view de login
+
     
 
 
