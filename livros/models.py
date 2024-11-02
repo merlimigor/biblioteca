@@ -17,7 +17,7 @@ class Livro(models.Model):
 
 class Usuario(models.Model):
     nome = models.CharField(max_length=100, null=False, blank=False)
-    tipo = models.CharField(max_length=50, choices=[('membro', 'Membro'), ('funcionario', 'Funcionário')], default='membro')
+    tipo = models.CharField(max_length=50, choices=[('membro', 'Membro')], default='membro')
 
     def __str__(self):
         return self.nome

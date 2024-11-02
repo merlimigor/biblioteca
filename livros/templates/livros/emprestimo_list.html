@@ -1,10 +1,68 @@
-<h1>Lista de Empréstimos</h1>
-<ul>
-    {% for emprestimo in object_list %}
-    <li>{{ emprestimo.usuario.nome }} - {{ emprestimo.livro.titulo }} (Data de Empréstimo: {{ emprestimo.data_emprestimo }})
-        <a href="{% url 'emprestimo_update' emprestimo.pk %}">Editar</a> |
-        <a href="{% url 'emprestimo_delete' emprestimo.pk %}">Deletar</a>
-    </li>
-    {% endfor %}
-</ul>
-<a href="{% url 'emprestimo_create' %}">Novo Empréstimo</a>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Empréstimos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #e63946;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        a {
+            color: #457b9d;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            margin-top: 10px;
+            background-color: #457b9d;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1d3557;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Empréstimos</h1>
+    <ul>
+        {% for emprestimo in object_list %}
+        <li>{{ emprestimo.usuario.nome }} - {{ emprestimo.livro.titulo }} (Data de Empréstimo: {{ emprestimo.data_emprestimo }})
+            <a href="{% url 'emprestimo_update' emprestimo.pk %}">Editar</a> |
+            <a href="{% url 'emprestimo_delete' emprestimo.pk %}">Deletar</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'emprestimo_create' %}">Novo Empréstimo</a>
+    <button><a href="{% url 'index' %}" style="color: white;">home</a></button>
+</body>
+</html>

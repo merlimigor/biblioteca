@@ -1,10 +1,70 @@
-<h1>Lista de Usuários</h1>
-<ul>
-    {% for usuario in object_list %}
-    <li>{{ usuario.nome }} - Tipo: {{ usuario.tipo }}
-        <a href="{% url 'usuario_update' usuario.pk %}">Editar</a> |
-        <a href="{% url 'usuario_delete' usuario.pk %}">Deletar</a>
-    </li>
-    {% endfor %}
-</ul>
-<a href="{% url 'usuario_create' %}">Adicionar Usuário</a>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuários</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #e63946;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        a {
+            color: #457b9d;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            background-color: #457b9d;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1d3557;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Usuários</h1>
+    <ul>
+        {% for usuario in object_list %}
+        <li>
+            {{ usuario.nome }} - Tipo: {{ usuario.tipo }}
+            <a href="{% url 'usuario_update' usuario.pk %}">Editar</a> |
+            <a href="{% url 'usuario_delete' usuario.pk %}">Deletar</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'usuario_create' %}">Adicionar Usuário</a>
+    <button><a href="{% url 'index' %}" style="color: white;">home</a></button>
+</body>
+</html>
