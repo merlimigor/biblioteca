@@ -1,0 +1,7 @@
+<h1>Deletar Usuário</h1>
+<p>Tem certeza de que deseja deletar este usuário?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Deletar</button>
+</form>
+<a href="{% url 'usuario_list' %}">Cancelar</a>

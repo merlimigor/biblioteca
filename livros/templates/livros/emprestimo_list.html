@@ -1,0 +1,10 @@
+<h1>Lista de Empréstimos</h1>
+<ul>
+    {% for emprestimo in object_list %}
+    <li>{{ emprestimo.usuario.nome }} - {{ emprestimo.livro.titulo }} (Data de Empréstimo: {{ emprestimo.data_emprestimo }})
+        <a href="{% url 'emprestimo_update' emprestimo.pk %}">Editar</a> |
+        <a href="{% url 'emprestimo_delete' emprestimo.pk %}">Deletar</a>
+    </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'emprestimo_create' %}">Novo Empréstimo</a>
