@@ -100,11 +100,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "assets"]  # Se o CSS está em uma pasta chamada "static"
+
+
 
 # settings.py
-LOGIN_URL = 'login'  # URL para redirecionar usuários não autenticados
-LOGIN_REDIRECT_URL = 'index'  # URL para redirecionar após login
-LOGOUT_REDIRECT_URL = 'index'  # URL para redirecionar após logout
+LOGIN_URL = 'login'  
+LOGIN_REDIRECT_URL = 'index'  
+LOGOUT_REDIRECT_URL = 'index' 
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

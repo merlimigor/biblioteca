@@ -4,53 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Empréstimos</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            padding: 20px;
-        }
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style4.css' %}">
 
-        h1 {
-            color: #e63946;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            margin: 10px 0;
-            background: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        a {
-            color: #457b9d;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        button {
-            margin-top: 10px;
-            background-color: #457b9d;
-            color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #1d3557;
-        }
-    </style>
 </head>
 <body>
     <h1>Lista de Empréstimos</h1>
