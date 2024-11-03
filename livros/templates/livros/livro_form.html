@@ -6,15 +6,152 @@
     <title>{% if object %}Editar{% else %}Adicionar{% endif %} Livro</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'style6.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #34495e;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-cancel {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #c0392b;
+        }
+
+        .icon {
+            margin-right: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>{% if object %}Editar{% else %}Adicionar{% endif %} Livro</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Salvar</button>
-    </form>
-    <a href="{% url 'livro_list' %}">Cancelar</a>
+    <div class="container">
+        <h1>
+            <i class="fas {% if object %}fa-edit{% else %}fa-plus{% endif %} icon"></i>
+            {% if object %}Editar{% else %}Adicionar{% endif %} Livro
+        </h1>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">
+                        <i class="fas {% if field.name == 'titulo' %}fa-book{% elif field.name == 'autor' %}fa-user-edit{% elif field.name == 'ano_publicacao' %}fa-calendar-alt{% elif field.name == 'editora' %}fa-building{% elif field.name == 'quantidade' %}fa-list-ol{% else %}fa-info-circle{% endif %} icon"></i>
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="error-message">
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save icon"></i>Salvar
+                </button>
+                <a href="{% url 'livro_list' %}" class="btn btn-cancel">
+                    <i class="fas fa-times icon"></i>Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Adiciona animação de loading no botão submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
+            submitButton.disabled = true;
+        });
+    </script>
 </body>
 </html>

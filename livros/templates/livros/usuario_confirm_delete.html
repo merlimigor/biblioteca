@@ -5,16 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deletar Usuário</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'style9.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .delete-container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            margin: 50px auto;
+            text-align: center;
+        }
 
+        .delete-icon {
+            font-size: 4rem;
+            color: #f44336;
+            margin-bottom: 20px;
+        }
+
+        .delete-message {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .user-info {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+
+        .user-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-danger {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .btn-cancel {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-cancel:hover {
+            background-color: #bdbdbd;
+        }
+    </style>
 </head>
 <body>
-    <h1>Deletar Usuário</h1>
-    <p>Tem certeza de que deseja deletar este usuário?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Deletar</button>
-    </form>
-    <a href="{% url 'usuario_list' %}">Cancelar</a>
+    <div class="container">
+        <div class="delete-container">
+            <i class="fas fa-exclamation-triangle delete-icon"></i>
+            <h1>Deletar Usuário</h1>
+            <p class="delete-message">Tem certeza de que deseja deletar este usuário?</p>
+            
+            <div class="user-info">
+                <p><strong>Nome:</strong> {{ object.nome }}</p>
+                <p><strong>Email:</strong> {{ object.email }}</p>
+                <p><strong>Tipo:</strong> {{ object.tipo }}</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="button-group">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Deletar
+                    </button>
+                    <a href="{% url 'usuario_list' %}" class="btn btn-cancel">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Adiciona confirmação adicional antes de enviar o formulário
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (!confirm('Você tem certeza absoluta? Esta ação não pode ser desfeita.')) {
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>

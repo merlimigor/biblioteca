@@ -30,6 +30,7 @@ class Emprestimo(models.Model):
     data_prevista_devolucao = models.DateField(null=False, blank=False)
     data_devolucao = models.DateField(null=True, blank=True)
     renovacoes = models.IntegerField(default=0)  
+   
 
     def __str__(self):
         return f"{self.usuario} - {self.livro}"

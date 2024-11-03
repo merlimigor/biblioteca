@@ -3,23 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Usuários</title>
+    <title>Gerenciamento de Usuários - Sistema de Biblioteca</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'style11.css' %}">
-
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .user-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .user-item {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #3a69c9;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        .action-links a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .btn-edit {
+            color: #4CAF50;
+        }
+        .btn-delete {
+            color: #f44336;
+        }
+        .action-links a:hover {
+            background-color: #f0f0f0;
+        }
+        .add-user {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .back-home {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Lista de Usuários</h1>
-    <ul>
-        {% for usuario in object_list %}
-        <li>
-            {{ usuario.nome }} - Tipo: {{ usuario.tipo }}
-            <a href="{% url 'usuario_update' usuario.pk %}">Editar</a> |
-            <a href="{% url 'usuario_delete' usuario.pk %}">Deletar</a>
-        </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'usuario_create' %}">Adicionar Usuário</a>
-    <button><a href="{% url 'index' %}" style="color: white;">home</a></button>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-users"></i> Gerenciamento de Usuários</h1>
+            <p>Lista e controle de usuários do sistema</p>
+        </header>
+
+        <main>
+            <ul class="user-list">
+                {% for usuario in object_list %}
+                <li class="user-item">
+                    <div class="user-info">
+                        <div class="user-avatar">{{ usuario.nome|make_list|first|upper }}</div>
+                        <span>{{ usuario.nome }} - Tipo: {{ usuario.tipo }}</span>
+                    </div>
+                    <div class="action-links">
+                        <a href="{% url 'usuario_update' usuario.pk %}" class="btn-edit"><i class="fas fa-edit"></i> Editar</a>
+                        <a href="{% url 'usuario_delete' usuario.pk %}" class="btn-delete"><i class="fas fa-trash"></i> Deletar</a>
+                    </div>
+                </li>
+                {% empty %}
+                <li>Nenhum usuário cadastrado.</li>
+                {% endfor %}
+            </ul>
+            
+            <div class="add-user">
+                <a href="{% url 'usuario_create' %}" class="btn btn-primary"><i class="fas fa-user-plus"></i> Adicionar Usuário</a>
+            </div>
+
+            <div class="back-home">
+                <a href="{% url 'index' %}" class="btn btn-logout"><i class="fas fa-home"></i> Voltar para Home</a>
+            </div>
+        </main>
+    </div>
 </body>
 </html>

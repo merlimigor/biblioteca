@@ -13,3 +13,4 @@ class UserRegistrationForm(forms.ModelForm):
             'last_name': "Último nome",
             'email': "Endereço de e-mail",
         }
+

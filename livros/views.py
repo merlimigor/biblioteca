@@ -110,3 +110,4 @@ class UsuarioDeleteView(DeleteView):
     model = Usuario
     template_name = 'livros/usuario_confirm_delete.html'
     success_url = reverse_lazy('usuario_list')
+

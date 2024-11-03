@@ -6,19 +6,203 @@
     <title>Lista de Empréstimos</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'style4.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+
+        .emprestimo-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .emprestimo-item {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .emprestimo-item:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .emprestimo-info {
+            flex-grow: 1;
+        }
+
+        .emprestimo-usuario {
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .emprestimo-livro {
+            font-style: italic;
+            color: #2c3e50;
+        }
+
+        .emprestimo-data {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        .emprestimo-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn i {
+            margin-right: 5px;
+        }
+
+        .btn-edit {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-new {
+            background-color: #2ecc71;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .btn-new:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-home {
+            background-color: #34495e;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            margin-top: 20px;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        .btn-home:hover {
+            background-color: #2c3e50;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+
+        .bottom-actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Lista de Empréstimos</h1>
-    <ul>
-        {% for emprestimo in object_list %}
-        <li>{{ emprestimo.usuario.nome }} - {{ emprestimo.livro.titulo }} (Data de Empréstimo: {{ emprestimo.data_emprestimo }})
-            <a href="{% url 'emprestimo_update' emprestimo.pk %}">Editar</a> |
-            <a href="{% url 'emprestimo_delete' emprestimo.pk %}">Deletar</a>
-        </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'emprestimo_create' %}">Novo Empréstimo</a>
-    <button><a href="{% url 'index' %}" style="color: white;">home</a></button>
+    <div class="container">
+        <h1><i class="fas fa-book-reader"></i> Lista de Empréstimos</h1>
+
+        {% if object_list %}
+            <ul class="emprestimo-list">
+                {% for emprestimo in object_list %}
+                    <li class="emprestimo-item">
+                        <div class="emprestimo-info">
+                            <span class="emprestimo-usuario"><i class="fas fa-user"></i> {{ emprestimo.usuario.nome }}</span>
+                            <span class="emprestimo-livro"><i class="fas fa-book"></i> {{ emprestimo.livro.titulo }}</span>
+                            <span class="emprestimo-data"><i class="fas fa-calendar-alt"></i> Emprestado em: {{ emprestimo.data_emprestimo|date:"d/m/Y" }}</span>
+                        </div>
+                        <div class="emprestimo-actions">
+                            <a href="{% url 'emprestimo_update' emprestimo.pk %}" class="btn btn-edit">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a href="{% url 'emprestimo_delete' emprestimo.pk %}" class="btn btn-delete">
+                                <i class="fas fa-trash"></i> Deletar
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-book-open" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                <p>Nenhum empréstimo registrado ainda.</p>
+            </div>
+        {% endif %}
+
+        <div class="bottom-actions">
+            <a href="{% url 'emprestimo_create' %}" class="btn btn-new">
+                <i class="fas fa-plus"></i> Novo Empréstimo
+            </a>
+            <a href="{% url 'index' %}" class="btn btn-home">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Adiciona confirmação para deleção
+        document.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (!confirm('Tem certeza que deseja deletar este empréstimo?')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

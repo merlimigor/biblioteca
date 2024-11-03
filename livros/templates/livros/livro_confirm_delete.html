@@ -6,15 +6,190 @@
     <title>Deletar Livro</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'style5.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
+        .delete-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .warning-icon {
+            font-size: 4rem;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .book-info {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .book-info p {
+            margin: 10px 0;
+            color: #34495e;
+        }
+
+        .book-info strong {
+            color: #2c3e50;
+        }
+
+        .warning-message {
+            color: #e74c3c;
+            font-size: 1.1rem;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-cancel {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #7f8c8d;
+        }
+
+        .confirmation-checkbox {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .confirmation-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Deletar Livro</h1>
-    <p>Tem certeza de que deseja deletar este livro?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Deletar</button>
-    </form>
-    <a href="{% url 'livro_list' %}">Cancelar</a>
+    <div class="delete-container">
+        <i class="fas fa-exclamation-triangle warning-icon"></i>
+        <h1>Deletar Livro</h1>
+
+        <div class="book-info">
+            <p><strong>Título:</strong> {{ object.titulo }}</p>
+            <p><strong>Autor:</strong> {{ object.autor }}</p>
+            {% if object.ano_publicacao %}
+            <p><strong>Ano de Publicação:</strong> {{ object.ano_publicacao }}</p>
+            {% endif %}
+            {% if object.editora %}
+            <p><strong>Editora:</strong> {{ object.editora }}</p>
+            {% endif %}
+        </div>
+
+        <p class="warning-message">
+            <i class="fas fa-exclamation-circle"></i>
+            Esta ação não pode ser desfeita!
+        </p>
+
+        <form method="post" id="deleteForm">
+            {% csrf_token %}
+            
+            <div class="confirmation-checkbox">
+                <input type="checkbox" id="confirm" required>
+                <label for="confirm">Confirmo que desejo deletar este livro</label>
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-delete">
+                    <i class="fas fa-trash"></i>
+                    Deletar
+                </button>
+                <a href="{% url 'livro_list' %}" class="btn btn-cancel">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('deleteForm').addEventListener('submit', function(e) {
+            const checkbox = document.getElementById('confirm');
+            if (!checkbox.checked) {
+                e.preventDefault();
+                alert('Por favor, confirme que deseja deletar este livro.');
+                return;
+            }
+
+            if (!confirm('Tem certeza absoluta que deseja deletar este livro?')) {
+                e.preventDefault();
+                return;
+            }
+
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deletando...';
+            submitButton.disabled = true;
+        });
+    </script>
 </body>
 </html>
