@@ -12,13 +12,13 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-book-reader"></i>Biblioteca Virtual</h1>
+            <h1><i class="fas fa-book-reader"></i> Biblioteca Virtual</h1>
         </header>
 
         <main>
             {% if not is_user %}
                 <div class="login-container">
-                    <h2><i class="fas fa-sign-in-alt"></i>Login</h2>
+                    <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
                     {% if error %}
                         <div class="alert alert-error">
                             <i class="fas fa-exclamation-circle"></i> {{ error }}
@@ -44,25 +44,29 @@
                 <div class="dashboard">
                     <h2><i class="fas fa-tachometer-alt"></i> Painel de Controle</h2>
                     <div class="menu-grid">
-                        <a href="{% url 'livro_create' %}" class="menu-item">
-                            <i class="fas fa-book"></i>
-                            <span>Adicionar Livro</span>
-                        </a>
+                        {% if user.is_staff or user.usuario.is_funcionario %}
+                            <a href="{% url 'livro_create' %}" class="menu-item">
+                                <i class="fas fa-book"></i>
+                                <span>Adicionar Livro</span>
+                            </a>
+
+                            </a>
+                            <a href="{% url 'emprestimo_list' %}" class="menu-item">
+                                <i class="fas fa-exchange-alt"></i>
+                                <span>Gerenciar Empréstimos</span>
+                            </a>
+                            <a href="{% url 'usuario_list' %}" class="menu-item">
+                                <i class="fas fa-users"></i>
+                                <span>Gerenciar Usuários</span>
+                            </a>
+                        {% endif %}
                         <a href="{% url 'livro_list' %}" class="menu-item">
                             <i class="fas fa-list"></i>
-                            <span>Listar Livros</span>
-                        </a>
-                        <a href="{% url 'emprestimo_list' %}" class="menu-item">
-                            <i class="fas fa-exchange-alt"></i>
-                            <span>Gerenciar Empréstimos</span>
-                        </a>
-                        <a href="{% url 'usuario_list' %}" class="menu-item">
-                            <i class="fas fa-users"></i>
-                            <span>Gerenciar Usuários</span>
+                            <span>Livros</span> <!-- Alterado de "Listar Livros" para "Livros" -->
                         </a>
                         <a href="{% url 'emprestimo_create' %}" class="menu-item">
                             <i class="fas fa-hand-holding-book"></i>
-                            <span>Emprestar Livro</span>
+                            <span><i class="fas fa-book-open"></i><br>Empréstimo</span> <!-- Adicionado ícone ao "Solicitar Empréstimo" -->
                         </a>
                     </div>
                     <form action="{% url 'logout' %}" method="post" class="logout-form">

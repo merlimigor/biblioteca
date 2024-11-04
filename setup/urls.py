@@ -15,7 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.contrib import admin
 from django.urls import path, include
+
 from django.views.generic import TemplateView
 from livros.views import register, Index
 from django.contrib.auth import views as auth_views
@@ -26,6 +28,7 @@ from livros.views import (
 )
 
 urlpatterns = [
+    
 
 
     path('', Index.as_view(), name='index'),  # Mapeando a URL raiz
@@ -36,7 +39,8 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', auth_views.LoginView.as_view(), name='login'),  # Adiciona a view de login
 
-    
+    path('admin/', admin.site.urls),
+    path('', include('livros.urls')),
 
 
     # URLs para Emprestimo
@@ -56,4 +60,11 @@ urlpatterns = [
     path('usuarios/create/', UsuarioCreateView.as_view(), name='usuario_create'),
     path('usuarios/update/<int:pk>/', UsuarioUpdateView.as_view(), name='usuario_update'),
     path('usuarios/delete/<int:pk>/', UsuarioDeleteView.as_view(), name='usuario_delete'),
+    #adm
+
+    
 ]
+
+
+
+

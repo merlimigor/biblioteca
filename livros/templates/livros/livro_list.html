@@ -141,6 +141,8 @@
         }
     </style>
 </head>
+
+
 <body>
     <div class="container">
         <header class="header">
@@ -154,7 +156,9 @@
             <li class="book-card">
                 <div class="book-info">
                     <div class="book-title">
-                        <i class="fas fa-book-open"></i> {{ livro.titulo }}
+                        <a href="{% url 'emprestimo_list' %}?livro_id={{ livro.pk }}" style="text-decoration: none; color: inherit;">
+                            <i class="fas fa-book-open"></i> {{ livro.titulo }}
+                        </a>
                     </div>
                     <div class="book-author">
                         <i class="fas fa-user-edit"></i> {{ livro.autor }}
@@ -163,6 +167,7 @@
                         {% if livro.disponivel %}Disponível{% else %}Emprestado{% endif %}
                     </span>
                 </div>
+                {% if user.is_staff or user.usuario.is_funcionario %}
                 <div class="action-buttons">
                     <a href="{% url 'livro_update' livro.pk %}" class="btn btn-edit">
                         <i class="fas fa-edit"></i> Editar
@@ -171,6 +176,7 @@
                         <i class="fas fa-trash"></i> Deletar
                     </a>
                 </div>
+                {% endif %}
             </li>
             {% endfor %}
         </ul>
@@ -182,9 +188,11 @@
         {% endif %}
 
         <div class="bottom-actions">
+            {% if user.is_staff or user.usuario.is_funcionario %}
             <a href="{% url 'livro_create' %}" class="btn btn-add">
                 <i class="fas fa-plus"></i> Adicionar Livro
             </a>
+            {% endif %}
             <a href="{% url 'index' %}" class="btn btn-home">
                 <i class="fas fa-home"></i> Home
             </a>
@@ -192,6 +200,7 @@
     </div>
 
     <script>
+
         // Adiciona animação suave ao scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
